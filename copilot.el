@@ -142,7 +142,7 @@ find indentation offset."
 (defvar copilot--server-executable nil
   "The dist directory containing agent.js file.")
 
-(defcustom copilot-version "1.27.0"
+(defcustom copilot-version "1.41.0"
   "Copilot version.
 
 The default value is the preferred version and ensures functionality.
@@ -328,6 +328,7 @@ Please upgrade the server via `M-x copilot-reinstall-server`"))
              (setq copilot--connection (copilot--make-connection))
              (message "Copilot agent started.")
              (copilot--request 'initialize '(:capabilities (:workspace (:workspaceFolders t))))
+             (copilot--notify 'initialized '())
              (copilot--async-request 'setEditorInfo
                                      `(:editorInfo (:name "Emacs" :version ,emacs-version)
                                                    :editorPluginInfo (:name "copilot.el" :version ,copilot-version)
@@ -1040,11 +1041,11 @@ in `post-command-hook'."
                  (list
                   (when (eq system-type 'windows-nt)
                     (f-join copilot-install-dir "node_modules"
-                            "copilot-node-server" "copilot" "dist" "agent.js"))
+                            "copilot-node-server" "copilot" "dist" "language-server.js"))
                   (f-join copilot-install-dir "lib" "node_modules"
-                          "copilot-node-server" "copilot" "dist" "agent.js")
+                          "copilot-node-server" "copilot" "dist" "language-server.js")
                   (f-join copilot-install-dir "lib64" "node_modules"
-                          "copilot-node-server" "copilot" "dist" "agent.js"))))
+                          "copilot-node-server" "copilot" "dist" "language-server.js"))))
             (seq-some
              (lambda (path)
                (when (and path (file-exists-p path))
